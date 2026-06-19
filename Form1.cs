@@ -8,9 +8,7 @@ namespace CRUDMahasiswaADO
 {
     public partial class Form1 : Form
     {
-        // Pengaturan koneksi sesuai server kamu
-        private readonly SqlConnection conn;
-        private readonly string connectionString = "Data Source=NAFIS\\NAFISCOY; Initial Catalog=DBAkademikADO; Integrated Security=True";
+        private readonly string connectionString = "Data Source=F; Initial Catalog=DBAkademikADO; Integrated Security=True";
         private BindingSource bindingSource = new BindingSource();
         private DataTable dtMahasiswa = new DataTable();
 
@@ -32,17 +30,17 @@ namespace CRUDMahasiswaADO
             LoadData();
         }
 
+
+        // ✅ LOG
         private void SimpanLog(string pesan)
         {
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand(
-                        "INSERT INTO LogError VALUES(GETDATE(), @pesan)", conn);
-
+                    SqlCommand cmd = new SqlCommand("INSERT INTO LogError (Waktu, Pesan) VALUES (GETDATE(), @pesan)", connection);
                     cmd.Parameters.AddWithValue("@pesan", pesan);
-                    conn.Open();
+                    connection.Open();
                     cmd.ExecuteNonQuery();
                 }
             }
