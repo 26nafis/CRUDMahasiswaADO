@@ -111,30 +111,32 @@ namespace CRUDMahasiswaADO
         }
 
 
+        // ✅ HITUNG TOTAL
         private void HitungTotal()
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("sp_CountMahasiswa", connection))
+                    SqlCommand cmd = new SqlCommand("sp_CountMahasiswa", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter output = new SqlParameter("@Total", SqlDbType.Int)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
+                        Direction = ParameterDirection.Output
+                    };
 
-                        SqlParameter outputParam = new SqlParameter("@Total", SqlDbType.Int);
-                        outputParam.Direction = ParameterDirection.Output;
-                        cmd.Parameters.Add(outputParam);
+                    cmd.Parameters.Add(output);
 
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
 
-                        lblTotal.Text = "Total Mahasiswa: " + (outputParam.Value ?? 0).ToString();
-                    }
+                    lblTotal.Text = "Total Mahasiswa : " + output.Value;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal menghitung total: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SimpanLog(ex.Message);
             }
         }
 
