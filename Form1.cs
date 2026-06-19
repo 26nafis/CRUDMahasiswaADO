@@ -160,22 +160,17 @@ namespace CRUDMahasiswaADO
 
         private void ClearForm()
         {
-            // Memutus binding sementara agar form bisa dikosongkan untuk input data baru
-            txtNIM.DataBindings.Clear();
-            txtNama.DataBindings.Clear();
-            cmbJK.DataBindings.Clear();
-            dtpTanggalLahir.DataBindings.Clear();
-            txtAlamat.DataBindings.Clear();
-            txtkodeProdi.DataBindings.Clear();
-
+            txtNIM.Enabled = true;
             txtNIM.Clear();
             txtNama.Clear();
             cmbJK.SelectedIndex = -1;
             txtAlamat.Clear();
             txtkodeProdi.Clear();
             dtpTanggalLahir.Value = DateTime.Now;
-            txtNIM.Focus();
+
+            fotoMhs.Image = null;
         }
+
 
         private bool IsInputValid()
         {
