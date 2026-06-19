@@ -13,8 +13,9 @@ namespace CRUDMahasiswaADO
 {
     public partial class Form1 : Form
     {
-        // Menyimpan Connection String di tempat yang aman
-        private readonly string connectionString = "Data Source=F; Initial Catalog=DBAkademikADO; Integrated Security=True";
+        // Pengaturan koneksi sesuai server kamu
+        private readonly SqlConnection conn;
+        private readonly string connectionString = "Data Source=NAFIS\\NAFISCOY; Initial Catalog=DBAkademikADO; Integrated Security=True";
         private BindingSource bindingSource = new BindingSource();
         private DataTable dtMahasiswa = new DataTable();
 
