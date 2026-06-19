@@ -53,6 +53,19 @@ namespace CRUDMahasiswaADO
             catch { }
         }
 
+        // ✅ CONVERT IMAGE (PictureBox)
+        private byte[] ConvertImageToBytes(PictureBox pb)
+        {
+            if (pb.Image == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                pb.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
+        }
+
+
         private void LoadData()
         {
             try
