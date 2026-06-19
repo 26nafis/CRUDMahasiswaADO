@@ -7,11 +7,10 @@ namespace CRUDMahasiswaADO
 {
     public partial class Form4 : Form
     {
-        // Menggunakan Connection String yang sama dengan Form1 dan Form3
-        private readonly string connectionString = "Data Source=NAFIS\\NAFISCOY; Initial Catalog=DBAkademikADO; Integrated Security=True";
-        private readonly SqlConnection conn;
-        private SqlDataAdapter da;
-        private DataTable dtMahasiswa;
+        // Menyimpan Connection String di tempat yang aman
+        private readonly string connectionString = "Data Source=F; Initial Catalog=DBAkademikADO; Integrated Security=True";
+        private BindingSource bindingSource = new BindingSource();
+        private DataTable dtMahasiswa = new DataTable();
 
         // Instance dari file Crystal Report (.rpt) yang kamu buat tadi
         private ListMahasisaw listMahasisaw = new ListMahasisaw();
