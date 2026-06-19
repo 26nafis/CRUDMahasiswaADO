@@ -75,36 +75,41 @@ namespace CRUDMahasiswaADO
         }
 
 
+        // ✅ LOAD DATA
         private void LoadData()
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand("sp_GetMahasiswa", connection))
+                    SqlCommand cmd = new SqlCommand("sp_GetMahasiswa", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    dtMahasiswa = new DataTable();
+                    da.Fill(dtMahasiswa);
+
+                    bindingSource.DataSource = dtMahasiswa;
+                    dataGridView1.DataSource = bindingSource;
+
+                    if (dataGridView1.Columns.Contains("Foto"))
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            dtMahasiswa = new DataTable();
-                            da.Fill(dtMahasiswa);
-
-                            bindingSource.DataSource = dtMahasiswa;
-                            dataGridView1.DataSource = bindingSource;
-
-                            // DataBinding otomatis mengatur sinkronisasi Grid -> TextBox saat baris dipilih
-                            BindControls();
-                        }
+                        ((DataGridViewImageColumn)dataGridView1.Columns["Foto"])
+                            .ImageLayout = DataGridViewImageCellLayout.Stretch;
                     }
+
+                    BindControls();
                 }
+
                 HitungTotal();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal load data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SimpanLog(ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
+
 
         private void HitungTotal()
         {
