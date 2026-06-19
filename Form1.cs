@@ -4,10 +4,6 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
-using ExcelDataReader;
-using System.Text;
-using System.Drawing;
-
 namespace CRUDMahasiswaADO
 {
     public partial class Form1 : Form
