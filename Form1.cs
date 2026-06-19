@@ -40,21 +40,17 @@ namespace CRUDMahasiswaADO
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = @"INSERT INTO LogError (Waktu, Pesan) VALUES (GETDATE(), @pesan)";
-                    using (SqlCommand cmd = new SqlCommand(query, connection))
-                    {
-                        cmd.Parameters.AddWithValue("@pesan", pesan);
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
-                    }
+                    SqlCommand cmd = new SqlCommand(
+                        "INSERT INTO LogError VALUES(GETDATE(), @pesan)", conn);
+
+                    cmd.Parameters.AddWithValue("@pesan", pesan);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
                 }
             }
-            catch
-            {
-                // Mengisolasi kegagalan logging agar tidak memicu crash beruntun
-            }
+            catch { }
         }
 
         private void LoadData()
