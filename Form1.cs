@@ -1,13 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.IO;
+using ExcelDataReader;
+using System.Text;
+using System.Drawing;
 
 namespace CRUDMahasiswaADO
 {
@@ -22,6 +21,7 @@ namespace CRUDMahasiswaADO
         public Form1()
         {
             InitializeComponent();
+            conn = new SqlConnection(connectionString);
         }
 
         private void Form1_Load(object sender, EventArgs e)
