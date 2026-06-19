@@ -140,9 +140,9 @@ namespace CRUDMahasiswaADO
             }
         }
 
+        // ✅ BIND
         private void BindControls()
         {
-            // Bersihkan binding lama untuk menghindari tumpukan data binding
             txtNIM.DataBindings.Clear();
             txtNama.DataBindings.Clear();
             cmbJK.DataBindings.Clear();
@@ -150,13 +150,12 @@ namespace CRUDMahasiswaADO
             txtAlamat.DataBindings.Clear();
             txtkodeProdi.DataBindings.Clear();
 
-            // Menerapkan binding baru secara otomatis mendeteksi perubahan baris di DataGridView
-            txtNIM.DataBindings.Add("Text", bindingSource, "NIM", true, DataSourceUpdateMode.Never);
-            txtNama.DataBindings.Add("Text", bindingSource, "Nama", true, DataSourceUpdateMode.Never);
-            cmbJK.DataBindings.Add("Text", bindingSource, "JenisKelamin", true, DataSourceUpdateMode.Never);
-            dtpTanggalLahir.DataBindings.Add("Value", bindingSource, "TanggalLahir", true, DataSourceUpdateMode.Never);
-            txtAlamat.DataBindings.Add("Text", bindingSource, "Alamat", true, DataSourceUpdateMode.Never);
-            txtkodeProdi.DataBindings.Add("Text", bindingSource, "KodeProdi", true, DataSourceUpdateMode.Never);
+            txtNIM.DataBindings.Add("Text", bindingSource, "NIM");
+            txtNama.DataBindings.Add("Text", bindingSource, "Nama");
+            cmbJK.DataBindings.Add("Text", bindingSource, "JenisKelamin");
+            dtpTanggalLahir.DataBindings.Add("Value", bindingSource, "TanggalLahir");
+            txtAlamat.DataBindings.Add("Text", bindingSource, "Alamat");
+            txtkodeProdi.DataBindings.Add("Text", bindingSource, "KodeProdi");
         }
 
         private void ClearForm()
