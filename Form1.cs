@@ -65,6 +65,15 @@ namespace CRUDMahasiswaADO
             }
         }
 
+        // ✅ CONVERT IMAGE (from path Excel)
+        private byte[] ConvertImageFromPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path)) return null;
+            if (!File.Exists(path)) return null;
+
+            return File.ReadAllBytes(path);
+        }
+
 
         private void LoadData()
         {
