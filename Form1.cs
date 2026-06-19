@@ -205,68 +205,39 @@ namespace CRUDMahasiswaADO
             LoadData();
         }
 
+        // ✅ INSERT
         private void btnInsert_Click(object sender, EventArgs e)
         {
             if (!IsInputValid()) return;
 
-            DialogResult dialogResult = MessageBox.Show($"Yakin ingin menambah data Mahasiswa:\nNIM: {txtNIM.Text}\nNama: {txtNama.Text}?",
-                                                        "Konfirmasi Tambah Data", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.No) return;
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                using (SqlTransaction trans = connection.BeginTransaction())
+                byte[] img = ConvertImageToBytes(fotoMhs);
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    try
-                    {
-                        using (SqlCommand cmdInsert = new SqlCommand("sp_InsertMahasiswa", connection, trans))
-                        {
-                            cmdInsert.CommandType = CommandType.StoredProcedure;
+                    SqlCommand cmd = new SqlCommand("sp_InsertMahasiswa", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                            cmdInsert.Parameters.AddWithValue("@NIM", txtNIM.Text);
-                            cmdInsert.Parameters.AddWithValue("@Nama", txtNama.Text);
-                            cmdInsert.Parameters.AddWithValue("@JenisKelamin", cmbJK.Text);
-                            cmdInsert.Parameters.AddWithValue("@TanggalLahir", dtpTanggalLahir.Value.Date);
-                            cmdInsert.Parameters.AddWithValue("@Alamat", txtAlamat.Text);
-                            cmdInsert.Parameters.AddWithValue("@KodeProdi", txtkodeProdi.Text);
+                    cmd.Parameters.AddWithValue("@NIM", txtNIM.Text);
+                    cmd.Parameters.AddWithValue("@Nama", txtNama.Text);
+                    cmd.Parameters.AddWithValue("@JenisKelamin", cmbJK.Text);
+                    cmd.Parameters.AddWithValue("@TanggalLahir", dtpTanggalLahir.Value);
+                    cmd.Parameters.AddWithValue("@Alamat", txtAlamat.Text);
+                    cmd.Parameters.AddWithValue("@KodeProdi", txtkodeProdi.Text);
+                    cmd.Parameters.AddWithValue("@Foto", (object)img ?? DBNull.Value);
 
-                            cmdInsert.ExecuteNonQuery();
-                        }
-
-                        string logQuery = @"INSERT INTO LogAktivitas (aktivitas, waktu) VALUES (@aktivitas, GETDATE())";
-                        using (SqlCommand cmdLog = new SqlCommand(logQuery, connection, trans))
-                        {
-                            cmdLog.Parameters.AddWithValue("@aktivitas", "INSERT MAHASISWA : " + txtNIM.Text);
-                            cmdLog.ExecuteNonQuery();
-                        }
-
-                        trans.Commit();
-
-                        MessageBox.Show("Data berhasil ditambahkan", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ClearForm();
-                        LoadData();
-                    }
-                    catch (SqlException ex)
-                    {
-                        trans.Rollback();
-                        SimpanLog("ROLLBACK INSERT : " + ex.Message);
-
-                        if (ex.Number == 2627)
-                            MessageBox.Show("NIM sudah ada di database!", "Primary Key Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        else if (ex.Number == 547)
-                            MessageBox.Show("Kode Prodi tidak terdaftar!", "Foreign Key Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                        else
-                            MessageBox.Show("SQL Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    catch (Exception ex)
-                    {
-                        trans.Rollback();
-                        SimpanLog("GENERAL ERROR : " + ex.Message);
-                        MessageBox.Show("General Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
                 }
+
+                MessageBox.Show("Data berhasil ditambahkan");
+                ClearForm();
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                SimpanLog(ex.Message);
             }
         }
 
