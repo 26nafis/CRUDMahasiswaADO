@@ -21,22 +21,18 @@ namespace CRUDMahasiswaADO
         public Form1()
         {
             InitializeComponent();
-            conn = new SqlConnection(connectionString);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Inisialisasi ComboBox Jenis Kelamin
             cmbJK.DataSource = new string[] { "L", "P" };
 
-            // Konfigurasi DataGridView agar rapi dan aman
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.ReadOnly = true;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Load data pertama kali saat form dibuka
             LoadData();
         }
 
