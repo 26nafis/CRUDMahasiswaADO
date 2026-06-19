@@ -172,34 +172,15 @@ namespace CRUDMahasiswaADO
         }
 
 
+        // ✅ VALIDASI
         private bool IsInputValid()
         {
-            if (!Regex.IsMatch(txtNIM.Text, @"^\d+$"))
-            {
-                MessageBox.Show("NIM harus berupa angka saja!", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNIM.Focus();
-                return false;
-            }
-            if (txtNIM.Text.Length > 11)
-            {
-                MessageBox.Show("NIM tidak boleh lebih dari 11 karakter!", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtNama.Text))
-            {
-                MessageBox.Show("Nama Mahasiswa wajib diisi!", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (cmbJK.SelectedIndex == -1 || string.IsNullOrEmpty(cmbJK.Text))
-            {
-                MessageBox.Show("Pilih Jenis Kelamin!", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            if (string.IsNullOrWhiteSpace(txtkodeProdi.Text))
-            {
-                MessageBox.Show("Kode Prodi wajib diisi!", "Validasi Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
+            if (!Regex.IsMatch(txtNIM.Text, @"^\d+$")) return false;
+            if (txtNIM.Text.Length > 11) return false;
+            if (string.IsNullOrWhiteSpace(txtNama.Text)) return false;
+            if (cmbJK.SelectedIndex == -1) return false;
+            if (string.IsNullOrWhiteSpace(txtkodeProdi.Text)) return false;
+
             return true;
         }
 
